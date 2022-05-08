@@ -3,7 +3,7 @@ from pygame.locals import *
 from random import randint
 
 # Forces windows to load 2048 icon to taskbar by changing the App ID
-myappid = '2048v0.8.5' # Arbitrary string
+myappid = '2048v0.9' # Arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 FPS = 60
@@ -20,7 +20,7 @@ WINDOWHEIGHT = (TOPYMARGIN + BOTTOMYMARGIN + (BOARDHEIGHT * GAPSIZE) + (BOARDHEI
 PADDING = TILESIZE / 2
 # Calculates the Animation Speed depending on the FPS
 # This way it is the same speed no matter the framerate
-ANIMATIONTIME = 20
+ANIMATIONTIME = 16
 ANIMATIONSPEED = int(FPS / ANIMATIONTIME)
 
 SCORE = 0
