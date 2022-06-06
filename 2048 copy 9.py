@@ -1,4 +1,3 @@
-from operator import delitem
 import sys, pygame, os, ctypes, copy
 from pygame.locals import *
 from random import randint
@@ -418,8 +417,8 @@ def slideTiles(TILES, slideTo, updateBoard):
                                 if tile3 >= 2048:
                                     if tile3 in WINEVENTS:
                                         if WINEVENTS[0] == tile3:
-                                                delitem(WINEVENTS, 0)
-                                                GAMEWON = True
+                                            del WINEVENTS[0]
+                                            GAMEWON = True
                             f += i
                             s += i
                         else:
@@ -478,7 +477,7 @@ def slideTiles(TILES, slideTo, updateBoard):
                                 if tile3 >= 2048:
                                     if tile3 in WINEVENTS:
                                         if WINEVENTS[0] == tile3:
-                                                delitem(WINEVENTS, 0)
+                                                del WINEVENTS[0]
                                                 GAMEWON = True
                             f += i
                             s += i
@@ -599,7 +598,7 @@ def drawScore(scores):
                 DISPLAYSURF.blit(scoreTxt, scoreSurf)
         pygame.display.update()
         for f in range(len(dedScores)):
-            delitem(scores, dedScores[f])
+            del scores[dedScores[f]]
 
 def makeText(text, fontStyle, color, bgcolor, x, y):
     # create the Surface and Rect objects for some text.
