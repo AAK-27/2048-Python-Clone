@@ -294,27 +294,34 @@ def getSavedBoard():
             content = content.replace(']', '')
             content = content.replace(',', '')
             tiles = content.split()
-            TILES = []
-            for x in range (BOARDWIDTH):
-                COLUMN = []
-                for y in range (BOARDHEIGHT):
-                    if x < 1:
-                        i = y
-                    elif x < 2:
-                        i = y + 4
-                    elif x < 3:
-                        i = y + 8
-                    else:
-                        i = y + 12
-                    tile = tiles[i]
-                    TILE = int(tile)
-                    COLUMN.append(TILE)
-                TILES.append(COLUMN)
-            SCORE = int(tiles[BOARDWIDTH * BOARDHEIGHT])
-            HIGHSCORE = int(tiles[BOARDWIDTH * BOARDHEIGHT + 1])
+            if (tiles != None or []):
+                if (len(tiles) != 0):
+                    TILES = []
+                    for x in range (BOARDWIDTH):
+                        COLUMN = []
+                        for y in range (BOARDHEIGHT):
+                            if x < 1:
+                                i = y
+                            elif x < 2:
+                                i = y + 4
+                            elif x < 3:
+                                i = y + 8
+                            else:
+                                i = y + 12
+                            tile = tiles[i]
+                            TILE = int(tile)
+                            COLUMN.append(TILE)
+                        TILES.append(COLUMN)
+                    SCORE = int(tiles[BOARDWIDTH * BOARDHEIGHT])
+                    HIGHSCORE = int(tiles[BOARDWIDTH * BOARDHEIGHT + 1])
+                else:
+                    newGame()
+            else:
+                    newGame()
         else:
-            newGame()
+                    newGame()
 
+                    
 def getTileStyles(val):
     # Returns a color, fontsize, and font depending on the value of the tile
     if val == 0:
