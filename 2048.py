@@ -3,7 +3,7 @@ from pygame.locals import *
 from random import randint
 
 # Forces windows to load 2048 icon to taskbar by changing the App ID
-myappid = '2048v0.10.0' # Arbitrary string
+myappid = '2048v1.0.0' # Arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 FPS = 60
