@@ -113,6 +113,8 @@ def main():
                     slideTo = UP
                 elif event.key in (K_DOWN, K_s, K_j):
                     slideTo = DOWN
+                elif event.key == K_m:
+                    pygame.display.iconify()
                 elif event.key == K_r:
                     newGame()
                 elif event.key == K_f:
@@ -155,7 +157,7 @@ def checkForQuit():
 
 def newGame():
     global SCORE
-    generateNewBoard(0)
+    generateNewBoard(2)
     SCORE = 0
     saveGame()
 
@@ -370,8 +372,6 @@ def checkForEmptyTiles(TILES):
                     tile = column[y]
                     if tile == 0:
                         emptyTiles.append((x, y))
-            if (emptyTiles == []):
-                gameLost()
     return emptyTiles
 
 def slideTiles(TILES, slideTo, updateBoard):
