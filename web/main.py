@@ -2,10 +2,6 @@ import pygame, os, copy, asyncio
 from pygame.locals import *
 from random import randint
 
-# Forces windows to load 2048 icon to taskbar by changing the App ID
-# myappid = '2048v1.0.0' # Arbitrary string
-# ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-
 FPS = 60
 XMARGIN = 60
 YMARGIN = 50
@@ -103,6 +99,9 @@ async def main():
     RESET_BUTTON = drawScreen(TILES)
     await checkForGameOver()
 
+    # Tracking touch drag inputs
+    fingerStartPositions = {}
+
     while True:
 
         slideTo = None
@@ -124,6 +123,27 @@ async def main():
                     slideTo = DOWN
                 elif event.key == K_r:
                     await newGame()
+            
+            # Handle touch inputs
+            elif event.type == FINGERDOWN:
+                fingerStartPositions[event.finger_id] = (event.x, event.y)
+            elif event.type == FINGERUP:
+                if event.finger_id not in fingerStartPositions:
+                    pygame.event.post(event)
+                    continue
+                fingerStartPos = fingerStartPositions.pop(event.finger_id)
+                dx = event.x - fingerStartPos[0]
+                dy = fingerStartPos[1] - event.y
+                if abs(dx) > abs(dy):
+                    if dx > 0:
+                        slideTo = RIGHT
+                    else:
+                        slideTo = LEFT
+                else:
+                    if dy > 0:
+                        slideTo = UP
+                    else:
+                        slideTo = DOWN
 
         if slideTo:
             await makeMove(TILES, slideTo)
@@ -523,6 +543,12 @@ async def newTileAnimation(newTiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in newTiles:
             tileX, tileY, tileVal = tile
@@ -588,6 +614,12 @@ async def slideAnimation(slides, board):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         pygame.display.update()
         FPSCLOCK.tick(FPS)
         await asyncio.sleep(0)
@@ -604,6 +636,12 @@ async def combineAnimation(tiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in tiles:
             (pos, val) = tile
@@ -638,6 +676,12 @@ async def combineAnimation(tiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in tiles:
             (pos, val) = tile
