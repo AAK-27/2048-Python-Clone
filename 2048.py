@@ -94,6 +94,9 @@ def main():
     RESET_BUTTON = drawScreen(TILES)
     checkForGameOver()
 
+    # Tracking touch drag inputs
+    fingerStartPos = None
+
     while True:
 
         slideTo = None
@@ -117,6 +120,26 @@ def main():
                     pygame.display.iconify()
                 elif event.key == K_r:
                     newGame()
+            
+            # Handle touch inputs
+            elif event.type == FINGERDOWN:
+                fingerStartPos = (event.x, event.y)
+            elif event.type == FINGERUP:
+                if fingerStartPos == None:
+                    continue
+                dx = event.x - fingerStartPos[0]
+                dy = fingerStartPos[1] - event.y
+                if abs(dx) > abs(dy):
+                    if dx > 0:
+                        slideTo = RIGHT
+                    else:
+                        slideTo = LEFT
+                else:
+                    if dy > 0:
+                        slideTo = UP
+                    else:
+                        slideTo = DOWN
+                fingerStartPos = None
 
         if slideTo:
             makeMove(TILES, slideTo)
