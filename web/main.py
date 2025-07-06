@@ -27,6 +27,9 @@ UP = 'up'
 DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
+
+SWIPETHRESHOLD = 25 # The minimum "length" of a swipe guesture to be recognized as an input
+
                 # After the player makes a move it will attempt to spawn a new tile
 NEWTILE1 = 2    # 9/10 Chance of spawning
 NEWTILE2 = 4    # 1/10 Chance of spawning
@@ -134,6 +137,10 @@ async def main():
                 fingerStartPos = fingerStartPositions.pop(event.finger_id)
                 dx = event.x - fingerStartPos[0]
                 dy = fingerStartPos[1] - event.y
+                dx *= WINDOWWIDTH
+                dy *= WINDOWHEIGHT
+                if (abs(dx) < SWIPETHRESHOLD) and (abs(dy) < SWIPETHRESHOLD):
+                    continue
                 if abs(dx) > abs(dy):
                     if dx > 0:
                         slideTo = RIGHT
