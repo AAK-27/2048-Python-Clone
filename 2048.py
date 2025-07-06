@@ -95,7 +95,7 @@ def main():
     checkForGameOver()
 
     # Tracking touch drag inputs
-    fingerStartPos = None
+    fingerStartPositions = {}
 
     while True:
 
@@ -123,10 +123,12 @@ def main():
             
             # Handle touch inputs
             elif event.type == FINGERDOWN:
-                fingerStartPos = (event.x, event.y)
+                fingerStartPositions[event.finger_id] = (event.x, event.y)
             elif event.type == FINGERUP:
-                if fingerStartPos == None:
+                if event.finger_id not in fingerStartPositions:
+                    pygame.event.post(event)
                     continue
+                fingerStartPos = fingerStartPositions.pop(event.finger_id)
                 dx = event.x - fingerStartPos[0]
                 dy = fingerStartPos[1] - event.y
                 if abs(dx) > abs(dy):
@@ -139,7 +141,6 @@ def main():
                         slideTo = UP
                     else:
                         slideTo = DOWN
-                fingerStartPos = None
 
         if slideTo:
             makeMove(TILES, slideTo)
@@ -543,6 +544,12 @@ def newTileAnimation(newTiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in newTiles:
             tileX, tileY, tileVal = tile
@@ -607,6 +614,12 @@ def slideAnimation(slides, board):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         pygame.display.update()
         FPSCLOCK.tick(FPS)
     combineAnimation(combineTiles)
@@ -622,6 +635,12 @@ def combineAnimation(tiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in tiles:
             (pos, val) = tile
@@ -655,6 +674,12 @@ def combineAnimation(tiles):
                 if event.key in MOVES:
                     pygame.event.post(event)
                     return
+            elif event.type == FINGERDOWN:
+                pygame.event.post(event)
+            elif event.type == FINGERUP:
+                pygame.event.post(event)
+                return
+            
         drawScreen(TILES)
         for tile in tiles:
             (pos, val) = tile
