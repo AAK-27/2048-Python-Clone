@@ -117,10 +117,6 @@ def main():
                     pygame.display.iconify()
                 elif event.key == K_r:
                     newGame()
-                elif event.key == K_f:
-                    gameLost()
-                elif event.key == K_v:
-                    gameWon()
 
         if slideTo:
             makeMove(TILES, slideTo)
@@ -157,7 +153,7 @@ def checkForQuit():
 
 def newGame():
     global SCORE
-    generateNewBoard(2)
+    generateNewBoard(0)
     SCORE = 0
     saveGame()
 
