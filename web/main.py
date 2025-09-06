@@ -1,6 +1,6 @@
-import pygame, os, copy, asyncio
+import pygame, os, copy, asyncio, datetime
 from pygame.locals import *
-from random import randint
+from random import randint, seed
 
 FPS = 60
 XMARGIN = 60
@@ -70,6 +70,8 @@ GAMEWON = False
 
 # Gets the directory of the file to load resources using relative path
 dirname = os.path.dirname(__file__)
+
+seed(datetime.datetime.now().timestamp())
 
 pygame.init()
 FPSCLOCK = pygame.time.Clock()
